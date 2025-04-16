@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成毅小窝</title>
+   
+    <style>
+
+
+        .animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .final-name {
+            position: absolute;
+            font-size:30px;
+            color: transparent;
+            background: linear-gradient(135deg, 
+                rgba(212,175,55,0.3) 0%, 
+                rgba(245,208,98,1) 50%,
+                rgba(212,175,55,0.3) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: 
+                2px 2px 4px rgba(0,0,0,0.2),
+                0 0 10px rgba(255,215,0,0.4);
+            opacity: 0;
+        }
+        
+        .dream-ball {
+            filter: blur(2px);
+            box-shadow: 0 0 30px #f5d062, 
+                        0 0 60px #f5d062, 
+                        0 0 90px rgba(245, 208, 98, 0.5);
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, 
+                rgba(255,240,150,0.8) 0%, 
+                rgba(255,215,0,0.6) 50%,
+                rgba(212,175,55,0) 100%);
+            animation: 
+                pulse 4s infinite alternate,
+                expand 5s ease-out forwards,
+                float 5s ease-in-out infinite;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: rgba(255, 240, 150, 0.8);
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .big-name {
+            position: absolute;
+            font-size: 19rem;
+          
+            color: transparent;
+            background: linear-gradient(135deg, 
+                rgba(212,175,55,0.3) 0%, 
+                rgba(245,208,98,1) 50%,
+                rgba(212,175,55,0.3) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: 
+                2px 2px 10px rgba(0,0,0,0.3),
+                0 0 20px rgba(255,215,0,0.6);
+            opacity: 0;
+            animation: 
+                nameAppear 2s 3s forwards,
+                nameGlow 3s 3s infinite alternate,
+                riseUp 2s 5s forwards; 
+            transform-origin: center;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        @keyframes expand {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(80); opacity: 0.5; }
+            100% { transform: scale(100); opacity: 0; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes nameAppear {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes nameGlow {
+            0% { text-shadow: 
+                    2px 2px 10px rgba(0,0,0,0.3),
+                    0 0 20px rgba(255,215,0,0.6); }
+            100% { text-shadow: 
+                    2px 2px 15px rgba(0,0,0,0.4),
+                    0 0 30px rgba(255,215,0,0.8); }
+        }
+        
+        @keyframes finalAppear {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+    
+        @keyframes riseUp {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-266px) scale(0.5); }
+        }
+
+
+
+        
+a {
+    text-decoration: none;
+    color: inherit;
+}
+      
+            #name {
+    color: transparent;
+    background: linear-gradient(135deg, 
+        rgba(212,175,55,0.3) 0%, 
+        rgba(245,208,98,1) 50%,
+        rgba(212,175,55,0.3) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 
+        2px 2px 4px rgba(0,0,0,0.2),
+        0 0 10px rgba(255,215,0,0.4);
+}
+    
+        body{
+            background-color:#2C5E2A;
+            color:rgb(252, 181, 82);
+            text-align: center;
+            font-size: 150px;
+            font-family: 华文仿宋;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+           
+        }
+  
+        div table{
+            margin: 0 auto;  
+           
+  border-spacing: 30px 0; 
+  border-collapse: separate; 
+           }  
+           
+       
+        #show td:hover {
+    color: rgb(220, 105, 22);
+   
+}
+
+        
+        #photo1, #photo2 {
+    transition: opacity 0.5s;
+}
+img {
+    width: 90%;
+    height: auto;
+}
+.responsive-menu {
+        width: 87%;
+        background:#D4AF37;
+    }
+    .responsive-menu tr {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .responsive-menu td {
+        flex: 1 0 auto;
+        padding: 15px;
+        text-align: center;
+        color: rgb(30, 107, 30);
+        transition: background 0.3s;
+        min-width: 120px;
+    }
+    .responsive-menu td:hover {
+        background: #ffffff;
+    }
+    @media (max-width: 600px) {
+        .responsive-menu td {
+            flex: 1 0 50%;
+        }
+    }
+    
+</style>
+<script>
+
+let count1 = 0;
+let count2 = 0;
+
+function showPhoto1(){
+    document.getElementById("photo1").innerHTML = 
+        `<img src="cy01/${count1}.jpg">`;
+    count1 = (count1 + 1) % 7;  
+    setTimeout(showPhoto1, 2800);
+}
+
+function showPhoto2(){
+    document.getElementById("photo2").innerHTML = 
+        `<img src="cy02/${count2}.jpg">`;
+    count2 = (count2 + 1) % 4;  
+    setTimeout(showPhoto2, 2800);
+}
+
+let flag=1;
+function move(){
+    let obj=document.getElementById("photo");
+    let right = parseInt(obj.style.right) || 5; 
+    right+=1*flag;
+    obj.style.right=right+"px";
+    if(right>1240){
+        flag=-1;
+    }
+    if(right<90){
+        flag=1;
+    }
+    requestAnimationFrame(move)
+}
+function createBall(){
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                particle.style.opacity = Math.random() * 0.5 + 0.3;
+                particle.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+                particles.appendChild(particle);
+            }
+            
+          
+            setTimeout(() => {
+                const animationContainer = document.getElementById('animationContainer');
+                
+            
+                animationContainer.style.opacity = '0';
+                animationContainer.style.transition = 'opacity 1s ease-out';
+                
+              
+                document.querySelectorAll('body > *:not(.animation-container)').forEach(el => {
+                    el.style.visibility = 'visible';
+                });
+                
+                setTimeout(() => {
+                    animationContainer.remove();
+                    
+                    
+                    move();
+                    showPhoto1();
+                    showPhoto2();
+                }, 500);
+            }, 7000);
+        }
+    </script>
+</head>
+<body onload="createBall(),move(),showPhoto1(),showPhoto2()">
+   
+    <div class="animation-container" id="animationContainer">
+        <div class="dream-ball"></div>
+        <div id="particles"></div>
+        <div class="big-name">成毅</div>
+        <div class="final-name">成毅</div>
+    </div>
+
+   
+    <div id="name">成毅<br>
+        <p style="font-size: 20px;">以诚至百道</p>
+   
+        <div id="photo" style="position: absolute; top:126px;">
+            <img src="cy01/ca9939668ba58ae8a5c7fa8f3f23eb3.png" style="width: 80px;">
+        </div>
+        
+        <div id="show" style="font-size:33px;">
+            <table class="responsive-menu">
+                <tr>  
+                    <td><a href="cy_first.html">首页</a></td>
+                    <td><a href="introducation.html">介绍</a></td>
+                    <td><a href="zuoping.html">作品</a></td>
+                    <td><a href="role.html">角色档案馆</a></td>
+                    <td><a href="music.html">音乐</a></td>
+                    <td><a href="fan.html">粉丝留言</a></td>
+                    <td><a href="end.html">结尾</a></td>
+                    
+                </tr>
+            </table>
+
+            <video controls width="87%" src="cy01/a0cbe61439504e39a2b10ecdab903a96.mp4"></video>
+        </div>
+        
+        <div id="photo1"></div>
+        <div id="photo2"></div>
+    </div>
+</body>
+</html>
