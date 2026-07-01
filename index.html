@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🌍 地球防御系统</title>
+    <title>🌍 天选救世主系统</title>
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
     </script>
     <style>
@@ -58,7 +58,7 @@
             }
         }
 
-        /* 页面1 */
+        /* ===== 页面1 ===== */
         #page1 .glow-text {
             font-size: 26px;
             font-weight: 900;
@@ -109,7 +109,7 @@
             transform: scale(0.9);
         }
 
-        /* 页面2：测试题 */
+        /* ===== 页面2：测试题 ===== */
         #page2 .test-title {
             font-size: 18px;
             color: #fff;
@@ -199,7 +199,7 @@
             box-shadow: none;
         }
 
-        /* 页面2.5：Excel 跳转引导页 */
+        /* ===== 页面2.5：Excel 跳转引导页 ===== */
         #pageExcel .excel-icon {
             font-size: 72px;
             margin-bottom: 10px;
@@ -248,7 +248,7 @@
             line-height: 1.6;
         }
 
-        /* 页面3：故障特效 */
+        /* ===== 页面3：故障特效 ===== */
         #page3 {
             position: relative;
             overflow: hidden;
@@ -351,20 +351,23 @@
             line-height: 1.2;
         }
 
-        /* 页面4：反诈二维码 */
+        /* ===== 页面4：反诈二维码（更醒目） ===== */
         #page4 .final-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #fff;
+            font-size: 28px;
+            font-weight: 900;
+            color: #ff0040;
+            text-shadow: 0 0 40px rgba(255, 0, 64, 0.5);
             text-align: center;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
         #page4 .final-sub {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.3);
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 200, 0, 0.3);
             text-align: center;
             margin-bottom: 18px;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
         .qr-wrapper {
             background: #fff;
@@ -395,7 +398,7 @@
             font-weight: 600;
         }
 
-        /* Toast */
+        /* ===== Toast ===== */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -442,11 +445,11 @@
         <div id="page1" class="page active">
             <div class="glow-text">🌍 恭喜<span class="highlight">宿主</span>觉醒 🌍</div>
             <div class="glow-text" style="font-size:16px; font-weight:400; text-shadow:none; color:rgba(255,255,255,0.5); margin-top:-4px;">
-                您已被 <span style="color:#ffd700; font-weight:700;">「地球防御系统」</span> 随机选中
+                您已被 <span style="color:#ffd700; font-weight:700;">「天选救世主系统」</span> 选中
             </div>
             <div class="sub-text">
                 <span class="emoji-big">🛡️</span>
-                您是第 <span style="color:#ffd700; font-weight:700;">9999</span> 号 <span style="color:#ffd700;">「天选守卫者」</span>
+                我们等您很久了
                 <br>
                 请完成以下 <span style="color:#ffd700;">救世主认证测试</span>
                 <br>
@@ -486,8 +489,8 @@
                 <div class="q-label">🚀 问题 3 / 3</div>
                 <div class="q-text">地球毁灭倒计时 24 小时，你会怎么度过？</div>
                 <div class="q-options">
-                    <span data-val="A">A. 把冰箱里所有好吃的全吃光</span>
-                    <span data-val="B">B. 给讨厌的人发「你后悔了吗」</span>
+                    <span data-val="A">A. 立马投靠外星人</span>
+                    <span data-val="B">B. 站到楼顶，对着天空大喊“我已经准备好了！”</span>
                     <span data-val="C">C. 躺平刷剧，反正也救不了</span>
                 </div>
             </div>
@@ -498,7 +501,7 @@
         <!-- ===== 页面2.5：跳转 Excel ===== -->
         <div id="pageExcel" class="page">
             <div class="excel-icon">📊</div>
-            <div class="excel-title">地球防御数据报告</div>
+            <div class="excel-title">数据报告</div>
             <div class="excel-desc">
                 您的认证已通过！<br>
                 点击下方按钮查看 <span style="color:#ffd700;">「地球防御数据总览」</span>
@@ -507,7 +510,7 @@
             </div>
 
             <!-- ★★★ 把下面的链接换成你的腾讯文档 / 石墨文档 / Excel 在线链接 ★★★ -->
-            <a class="excel-btn" id="openExcelBtn" href="https://docs.qq.com/sheet/你的腾讯文档ID" target="_blank">
+            <a class="excel-btn" id="openExcelBtn" href="https://docs.qq.com/sheet/DT3pkS0dtUUV1aWZF?tab=BB08J2" target="_blank">
                 📂 打开数据报告
             </a>
 
@@ -519,25 +522,25 @@
         <!-- ===== 页面3：故障特效 ===== -->
         <div id="page3" class="page">
             <div class="glitch-overlay" id="glitchOverlay"></div>
-            <div class="glitch-text" id="glitchResult">✅ 认 证 成 功</div>
-            <div class="result-sub" id="resultSub">您 已 正 式 成 为 地 球 守 卫 者</div>
+            <div class="glitch-text" id="glitchResult">⚠️ 系 统 崩 溃 ⚠️</div>
+            <div class="result-sub" id="resultSub">错 误 代 码 ： 0 x 0 0 0 0 F F</div>
             <div class="countdown-box">
-                <div class="label">⏳ 系统加载中</div>
+                <div class="label">⚡ 无 法 恢 复 · 核 心 进 程 已 终 止 ⚡</div>
                 <div class="number" id="countdownNumber">3</div>
             </div>
         </div>
 
         <!-- ===== 页面4：反诈二维码 ===== -->
         <div id="page4" class="page">
-            <div class="final-title">🎖️ 恭喜通关！</div>
-            <div class="final-sub">您已获得 <span style="color:#ffd700;">「地球守卫者」</span> 称号</div>
+            <div class="final-title">🔴 你确定吗？</div>
+            <div class="final-sub">这是最后的机会 · 一旦开始就无法回头</div>
             <div class="qr-wrapper">
                 <div id="qrcode"></div>
             </div>
             <div class="hint">
-                👆 扫码领取您的专属 <strong>「地球守卫者证书」</strong>
+                👆 扫码领取终极武器 · 拯救地球的最后一步
                 <br>
-                <span style="font-size:12px; color:rgba(255,255,255,0.10);">（扫了有惊喜）</span>
+                <span style="font-size:12px; color:rgba(255,255,255,0.10);">（地球的命运在你手中）</span>
             </div>
         </div>
 
@@ -636,21 +639,15 @@
                 }
             }
 
-            // 保存答案到 localStorage（可选的，方便你后来看）
             localStorage.setItem('earth_answers', JSON.stringify(answers));
             console.log('📝 答案已保存', answers);
 
-            // 跳转到 Excel 引导页
             goToPage('Excel');
-
-            // 更新 Excel 按钮的链接（动态设置）
             document.getElementById('openExcelBtn').href = EXCEL_URL;
 
-            // 监听页面可见性变化（用户从 Excel 回来后触发）
             excelOpened = false;
             glitchTriggered = false;
 
-            // 先移除之前的监听器（避免重复绑定）
             document.removeEventListener('visibilitychange', onVisibilityChange);
             document.addEventListener('visibilitychange', onVisibilityChange);
 
@@ -661,7 +658,6 @@
         //  监听用户从 Excel 回来
         // ============================================================
         function onVisibilityChange() {
-            // 当页面重新可见，且用户曾经打开过 Excel，且还没有触发过故障
             if (!document.hidden && excelOpened && !glitchTriggered) {
                 glitchTriggered = true;
                 showToast('🛸 检测到宿主返回，系统继续...', 'success');
@@ -677,28 +673,21 @@
         document.addEventListener('DOMContentLoaded', function() {
             const btn = document.getElementById('openExcelBtn');
             btn.addEventListener('click', function(e) {
-                // 标记用户已经打开了 Excel
                 excelOpened = true;
-                // 不阻止默认行为，让链接正常打开
-                // 但为了保险，加一个小延迟标记
-                setTimeout(() => {
-                    // 如果用户快速返回，可能触发不了 visibility 变化，加个后备
-                }, 2000);
             });
         });
 
         // ============================================================
-        //  故障页 + 倒计时
+        //  故障页 + 倒计时（固定文字，不随机）
         // ============================================================
         let countdownTimer = null;
 
         function goToGlitchPage() {
             goToPage(3);
 
-            const resultTexts = ['✅ 认 证 成 功', '🌍 地 球 得 救', '🛡️ 守 卫 者 就 位', '⚡ 宿 主 觉 醒 完 成'];
-            const subTexts = ['您 已 正 式 成 为 地 球 守 卫 者', '人 类 文 明 由 您 守 护', '您 的 名 字 将 载 入 史 册'];
-            document.getElementById('glitchResult').textContent = resultTexts[Math.floor(Math.random() * resultTexts.length)];
-            document.getElementById('resultSub').textContent = subTexts[Math.floor(Math.random() * subTexts.length)];
+            // 固定显示故障页文字（不随机）
+            document.getElementById('glitchResult').textContent = '⚠️ 系 统 崩 溃 ⚠️';
+            document.getElementById('resultSub').textContent = '错 误 代 码 ： 0 x 0 0 0 0 F F';
 
             document.getElementById('glitchOverlay').classList.add('active');
 
@@ -728,7 +717,7 @@
         function generateQR() {
             if (qrGenerated) return;
             qrGenerated = true;
-            const url = 'https://apps.apple.com/cn/app/%E5%9B%BD%E5%AE%B6%E5%8F%8D%E8%AF%88%E4%B8%AD%E5%BF%83/id1552823102';
+            const url = 'https://sj.qq.com/appdetail/com.hicorenational.antifraud';
             const container = document.getElementById('qrcode');
             container.innerHTML = '';
             new QRCode(container, {
@@ -746,7 +735,6 @@
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             goToPage(1);
-            // 更新 Excel 链接
             document.getElementById('openExcelBtn').href = EXCEL_URL;
             console.log('🌍 地球防御系统已启动！');
             console.log('📊 Excel 链接:', EXCEL_URL);
