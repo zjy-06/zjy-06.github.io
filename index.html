@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🌍 天选救世主系统</title>
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
-    </script>
     <style>
         /* ===== 全部样式 ===== */
         * {
@@ -199,7 +197,7 @@
             box-shadow: none;
         }
 
-        /* ===== 页面2.5：Excel 跳转引导页 ===== */
+        /* ===== 页面2.5：跳转 Excel ===== */
         #pageExcel .excel-icon {
             font-size: 72px;
             margin-bottom: 10px;
@@ -246,156 +244,6 @@
             margin-top: 14px;
             text-align: center;
             line-height: 1.6;
-        }
-
-        /* ===== 页面3：故障特效 ===== */
-        #page3 {
-            position: relative;
-            overflow: hidden;
-        }
-        .glitch-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            background: rgba(255, 0, 0, 0);
-            animation: none;
-        }
-        .glitch-overlay.active {
-            animation: glitchFlash 0.12s infinite alternate;
-        }
-        @keyframes glitchFlash {
-            0% {
-                background: rgba(255, 0, 0, 0.12);
-                transform: translate(2px, -2px) scale(1.01);
-            }
-            25% {
-                background: rgba(0, 255, 255, 0.10);
-                transform: translate(-3px, 1px) scale(1.02);
-            }
-            50% {
-                background: rgba(255, 0, 255, 0.10);
-                transform: translate(4px, 3px) scale(0.99);
-            }
-            75% {
-                background: rgba(255, 255, 0, 0.08);
-                transform: translate(-2px, -3px) scale(1.01);
-            }
-            100% {
-                background: rgba(0, 255, 0, 0.08);
-                transform: translate(1px, 4px) scale(1);
-            }
-        }
-        .glitch-text {
-            font-size: 38px;
-            font-weight: 900;
-            color: #ffd700;
-            text-shadow: 3px 3px 0 #ff0040, -3px -3px 0 #00ccff;
-            text-align: center;
-            line-height: 1.2;
-            position: relative;
-            z-index: 2;
-            animation: glitchText 0.08s infinite alternate;
-            margin-bottom: 6px;
-        }
-        @keyframes glitchText {
-            0% {
-                transform: translate(2px, -2px) skewX(2deg);
-            }
-            25% {
-                transform: translate(-3px, 1px) skewX(-3deg);
-            }
-            50% {
-                transform: translate(4px, 3px) skewX(1deg);
-            }
-            75% {
-                transform: translate(-1px, -3px) skewX(-1deg);
-            }
-            100% {
-                transform: translate(1px, 4px) skewX(2deg);
-            }
-        }
-        .result-sub {
-            font-size: 20px;
-            color: #ff6b9d;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 0 20px rgba(255, 0, 100, 0.3);
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-        .countdown-box {
-            margin-top: 28px;
-            padding: 12px 28px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
-        .countdown-box .label {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.25);
-            letter-spacing: 3px;
-        }
-        .countdown-box .number {
-            font-size: 52px;
-            font-weight: 900;
-            color: #ffd700;
-            text-shadow: 0 0 40px rgba(255, 200, 0, 0.2);
-            line-height: 1.2;
-        }
-
-        /* ===== 页面4：反诈二维码（更醒目） ===== */
-        #page4 .final-title {
-            font-size: 28px;
-            font-weight: 900;
-            color: #ff0040;
-            text-shadow: 0 0 40px rgba(255, 0, 64, 0.5);
-            text-align: center;
-            margin-bottom: 6px;
-        }
-        #page4 .final-sub {
-            font-size: 18px;
-            font-weight: 700;
-            color: #ffd700;
-            text-shadow: 0 0 20px rgba(255, 200, 0, 0.3);
-            text-align: center;
-            margin-bottom: 18px;
-            letter-spacing: 2px;
-        }
-        .qr-wrapper {
-            background: #fff;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 0 60px rgba(255, 200, 0, 0.06);
-            margin-bottom: 14px;
-        }
-        #qrcode {
-            width: 200px;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        #qrcode img {
-            width: 100% !important;
-            height: 100% !important;
-        }
-        #page4 .hint {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.18);
-            text-align: center;
-            line-height: 1.6;
-        }
-        #page4 .hint strong {
-            color: #ff6b9d;
-            font-weight: 600;
         }
 
         /* ===== Toast ===== */
@@ -506,41 +354,16 @@
                 您的认证已通过！<br>
                 点击下方按钮查看 <span style="color:#ffd700;">「地球防御数据总览」</span>
                 <br>
-                <span style="font-size:13px; color:rgba(255,255,255,0.2);">看完后关闭窗口，系统将为您加载最终认证</span>
+                <span style="font-size:13px; color:rgba(255,255,255,0.2);">文档内含「最终认证通道」，请务必完成最后一步</span>
             </div>
 
-            <!-- ★★★ 把下面的链接换成你的腾讯文档 / 石墨文档 / Excel 在线链接 ★★★ -->
+            <!-- ★★★ 把下面的链接换成你的腾讯文档链接 ★★★ -->
             <a class="excel-btn" id="openExcelBtn" href="https://docs.qq.com/sheet/DT3pkS0dtUUV1aWZF?tab=BB08J2" target="_blank">
-                📂 打开数据报告
+                📂 前往数据报告 · 完成最终认证
             </a>
 
             <div class="excel-hint">
-                ⚡ 提示：看完后关闭 Excel 页面，<br>系统将自动继续
-            </div>
-        </div>
-
-        <!-- ===== 页面3：故障特效 ===== -->
-        <div id="page3" class="page">
-            <div class="glitch-overlay" id="glitchOverlay"></div>
-            <div class="glitch-text" id="glitchResult">⚠️ 系 统 崩 溃 ⚠️</div>
-            <div class="result-sub" id="resultSub">错 误 代 码 ： 0 x 0 0 0 0 F F</div>
-            <div class="countdown-box">
-                <div class="label">⚡ 无 法 恢 复 · 核 心 进 程 已 终 止 ⚡</div>
-                <div class="number" id="countdownNumber">3</div>
-            </div>
-        </div>
-
-        <!-- ===== 页面4：反诈二维码 ===== -->
-        <div id="page4" class="page">
-            <div class="final-title">🔴 你确定吗？</div>
-            <div class="final-sub">这是最后的机会 · 一旦开始就无法回头</div>
-            <div class="qr-wrapper">
-                <div id="qrcode"></div>
-            </div>
-            <div class="hint">
-                👆 扫码领取终极武器 · 拯救地球的最后一步
-                <br>
-                <span style="font-size:12px; color:rgba(255,255,255,0.10);">（地球的命运在你手中）</span>
+                ⚡ 提示：打开文档后，点击里面的链接继续
             </div>
         </div>
 
@@ -549,7 +372,6 @@
     <script>
         // ============================================================
         //  ★★★ 配置你的 Excel 在线链接 ★★★
-        //  支持：腾讯文档、石墨文档、钉钉文档、飞书文档、Office Online
         // ============================================================
         const EXCEL_URL = 'https://docs.qq.com/sheet/DT3pkS0dtUUV1aWZF?tab=BB08J2';
 
@@ -628,9 +450,6 @@
         // ============================================================
         //  提交 → 跳转到 Excel 引导页
         // ============================================================
-        let excelOpened = false;
-        let glitchTriggered = false;
-
         function submitTest() {
             for (let i = 1; i <= 3; i++) {
                 if (!answers[i]) {
@@ -644,90 +463,7 @@
 
             goToPage('Excel');
             document.getElementById('openExcelBtn').href = EXCEL_URL;
-
-            excelOpened = false;
-            glitchTriggered = false;
-
-            document.removeEventListener('visibilitychange', onVisibilityChange);
-            document.addEventListener('visibilitychange', onVisibilityChange);
-
-            showToast('📊 请查看数据报告后返回', 'info');
-        }
-
-        // ============================================================
-        //  监听用户从 Excel 回来
-        // ============================================================
-        function onVisibilityChange() {
-            if (!document.hidden && excelOpened && !glitchTriggered) {
-                glitchTriggered = true;
-                showToast('🛸 检测到宿主返回，系统继续...', 'success');
-                setTimeout(() => {
-                    goToGlitchPage();
-                }, 500);
-            }
-        }
-
-        // ============================================================
-        //  用户点击打开 Excel
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            const btn = document.getElementById('openExcelBtn');
-            btn.addEventListener('click', function(e) {
-                excelOpened = true;
-            });
-        });
-
-        // ============================================================
-        //  故障页 + 倒计时（固定文字，不随机）
-        // ============================================================
-        let countdownTimer = null;
-
-        function goToGlitchPage() {
-            goToPage(3);
-
-            // 固定显示故障页文字（不随机）
-            document.getElementById('glitchResult').textContent = '⚠️ 系 统 崩 溃 ⚠️';
-            document.getElementById('resultSub').textContent = '错 误 代 码 ： 0 x 0 0 0 0 F F';
-
-            document.getElementById('glitchOverlay').classList.add('active');
-
-            let count = 3;
-            const numEl = document.getElementById('countdownNumber');
-            numEl.textContent = count;
-            if (countdownTimer) clearInterval(countdownTimer);
-            countdownTimer = setInterval(() => {
-                count--;
-                if (count <= 0) {
-                    clearInterval(countdownTimer);
-                    countdownTimer = null;
-                    document.getElementById('glitchOverlay').classList.remove('active');
-                    goToPage(4);
-                    generateQR();
-                } else {
-                    numEl.textContent = count;
-                }
-            }, 1000);
-        }
-
-        // ============================================================
-        //  二维码
-        // ============================================================
-        let qrGenerated = false;
-
-        function generateQR() {
-            if (qrGenerated) return;
-            qrGenerated = true;
-            const url = 'https://sj.qq.com/appdetail/com.hicorenational.antifraud';
-            const container = document.getElementById('qrcode');
-            container.innerHTML = '';
-            new QRCode(container, {
-                text: url,
-                width: 200,
-                height: 200,
-                colorDark: '#0a0a0a',
-                colorLight: '#ffffff',
-                correctLevel: QRCode.CorrectLevel.H
-            });
+            showToast('📊 请前往数据报告完成最终认证', 'info');
         }
 
         // ============================================================
@@ -736,7 +472,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             goToPage(1);
             document.getElementById('openExcelBtn').href = EXCEL_URL;
-            console.log('🌍 地球防御系统已启动！');
+            console.log('🌍 天选救世主系统已启动！');
             console.log('📊 Excel 链接:', EXCEL_URL);
         });
     </script>
