@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🌍 地球防御系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
+    </script>
+    <style>
+        /* ===== 全部样式 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            padding: 20px;
+        }
+        .phone {
+            width: 100%;
+            max-width: 420px;
+            min-height: 700px;
+            background: linear-gradient(145deg, #0d0d1a, #1a0a2e);
+            border-radius: 40px;
+            padding: 30px 24px 30px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), inset 0 0 80px rgba(255, 200, 0, 0.04);
+            overflow: hidden;
+            border: 1px solid rgba(255, 200, 0, 0.10);
+        }
+        .page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 640px;
+            animation: fadeIn 0.6s ease;
+            position: relative;
+            z-index: 2;
+        }
+        .page.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 页面1 */
+        #page1 .glow-text {
+            font-size: 26px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255, 200, 0, 0.5), 0 0 60px rgba(255, 150, 0, 0.2);
+            text-align: center;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+        #page1 .glow-text .highlight {
+            color: #ffd700;
+        }
+        #page1 .sub-text {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.45);
+            text-align: center;
+            line-height: 1.8;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+        #page1 .sub-text .emoji-big {
+            font-size: 64px;
+            display: block;
+            margin: 6px auto 8px;
+        }
+        .arrow-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 200, 0, 0.12);
+            border: 2px solid rgba(255, 200, 0, 0.35);
+            color: #ffd700;
+            font-size: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            user-select: none;
+        }
+        .arrow-btn:hover {
+            background: rgba(255, 200, 0, 0.25);
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(255, 200, 0, 0.15);
+        }
+        .arrow-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* 页面2：测试题 */
+        #page2 .test-title {
+            font-size: 18px;
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        #page2 .test-title .tag {
+            display: inline-block;
+            background: rgba(255, 200, 0, 0.15);
+            color: #ffd700;
+            padding: 2px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 6px;
+            letter-spacing: 2px;
+        }
+        .question {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+        .question .q-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.25);
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+        }
+        .question .q-text {
+            font-size: 16px;
+            color: #fff;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        .question .q-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        .question .q-options span {
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .question .q-options span:hover {
+            background: rgba(255, 200, 0, 0.10);
+            color: #fff;
+        }
+        .question .q-options span.active {
+            background: rgba(255, 200, 0, 0.18);
+            border-color: #ffd700;
+            color: #ffd700;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #ffd700, #f5a623);
+            color: #0a0a0a;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 6px;
+            letter-spacing: 2px;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(255, 200, 0, 0.25);
+        }
+        .submit-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 页面2.5：Excel 跳转引导页 */
+        #pageExcel .excel-icon {
+            font-size: 72px;
+            margin-bottom: 10px;
+        }
+        #pageExcel .excel-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        #pageExcel .excel-desc {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.4);
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .excel-btn {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #217346, #1e7e34);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 30px rgba(33, 115, 70, 0.3);
+        }
+        .excel-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(33, 115, 70, 0.4);
+        }
+        .excel-btn:active {
+            transform: scale(0.95);
+        }
+        .excel-hint {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.15);
+            margin-top: 14px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* 页面3：故障特效 */
+        #page3 {
+            position: relative;
+            overflow: hidden;
+        }
+        .glitch-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            background: rgba(255, 0, 0, 0);
+            animation: none;
+        }
+        .glitch-overlay.active {
+            animation: glitchFlash 0.12s infinite alternate;
+        }
+        @keyframes glitchFlash {
+            0% {
+                background: rgba(255, 0, 0, 0.12);
+                transform: translate(2px, -2px) scale(1.01);
+            }
+            25% {
+                background: rgba(0, 255, 255, 0.10);
+                transform: translate(-3px, 1px) scale(1.02);
+            }
+            50% {
+                background: rgba(255, 0, 255, 0.10);
+                transform: translate(4px, 3px) scale(0.99);
+            }
+            75% {
+                background: rgba(255, 255, 0, 0.08);
+                transform: translate(-2px, -3px) scale(1.01);
+            }
+            100% {
+                background: rgba(0, 255, 0, 0.08);
+                transform: translate(1px, 4px) scale(1);
+            }
+        }
+        .glitch-text {
+            font-size: 38px;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 3px 3px 0 #ff0040, -3px -3px 0 #00ccff;
+            text-align: center;
+            line-height: 1.2;
+            position: relative;
+            z-index: 2;
+            animation: glitchText 0.08s infinite alternate;
+            margin-bottom: 6px;
+        }
+        @keyframes glitchText {
+            0% {
+                transform: translate(2px, -2px) skewX(2deg);
+            }
+            25% {
+                transform: translate(-3px, 1px) skewX(-3deg);
+            }
+            50% {
+                transform: translate(4px, 3px) skewX(1deg);
+            }
+            75% {
+                transform: translate(-1px, -3px) skewX(-1deg);
+            }
+            100% {
+                transform: translate(1px, 4px) skewX(2deg);
+            }
+        }
+        .result-sub {
+            font-size: 20px;
+            color: #ff6b9d;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 20px rgba(255, 0, 100, 0.3);
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .countdown-box {
+            margin-top: 28px;
+            padding: 12px 28px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        .countdown-box .label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 3px;
+        }
+        .countdown-box .number {
+            font-size: 52px;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 0 0 40px rgba(255, 200, 0, 0.2);
+            line-height: 1.2;
+        }
+
+        /* 页面4：反诈二维码 */
+        #page4 .final-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+        #page4 .final-sub {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.3);
+            text-align: center;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+        }
+        .qr-wrapper {
+            background: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 60px rgba(255, 200, 0, 0.06);
+            margin-bottom: 14px;
+        }
+        #qrcode {
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #qrcode img {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        #page4 .hint {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.18);
+            text-align: center;
+            line-height: 1.6;
+        }
+        #page4 .hint strong {
+            color: #ff6b9d;
+            font-weight: 600;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 200, 0, 0.92);
+            color: #0a0a0a;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 15px;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        .toast.error {
+            background: rgba(255, 50, 50, 0.92);
+            color: #fff;
+        }
+        .toast.success {
+            background: rgba(0, 255, 180, 0.92);
+            color: #0a0a0a;
+        }
+        .toast.info {
+            background: rgba(33, 115, 70, 0.92);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="phone">
+
+        <!-- ===== 页面1：恭喜宿主 ===== -->
+        <div id="page1" class="page active">
+            <div class="glow-text">🌍 恭喜<span class="highlight">宿主</span>觉醒 🌍</div>
+            <div class="glow-text" style="font-size:16px; font-weight:400; text-shadow:none; color:rgba(255,255,255,0.5); margin-top:-4px;">
+                您已被 <span style="color:#ffd700; font-weight:700;">「地球防御系统」</span> 随机选中
+            </div>
+            <div class="sub-text">
+                <span class="emoji-big">🛡️</span>
+                您是第 <span style="color:#ffd700; font-weight:700;">9999</span> 号 <span style="color:#ffd700;">「天选守卫者」</span>
+                <br>
+                请完成以下 <span style="color:#ffd700;">救世主认证测试</span>
+                <br>
+                <span style="font-size:12px; color:rgba(255,255,255,0.15);">您的回答将决定地球的命运</span>
+            </div>
+            <div class="arrow-btn" onclick="goToPage(2)">➜</div>
+        </div>
+
+        <!-- ===== 页面2：测试题 ===== -->
+        <div id="page2" class="page">
+            <div class="test-title">
+                <div class="tag">⚡ 救世主认证测试 ⚡</div>
+                请回答以下 <span style="color:#ffd700;">终极拷问</span>
+            </div>
+
+            <div class="question" data-q="1">
+                <div class="q-label">🧬 问题 1 / 3</div>
+                <div class="q-text">外星舰队已抵达地球上空，你第一步会做什么？</div>
+                <div class="q-options">
+                    <span data-val="A">A. 泡茶，冷静分析局势</span>
+                    <span data-val="B">B. 打开抖音，看有没有人直播外星人</span>
+                    <span data-val="C">C. 给外星人点份外卖，先套套近乎</span>
+                </div>
+            </div>
+
+            <div class="question" data-q="2">
+                <div class="q-label">💥 问题 2 / 3</div>
+                <div class="q-text">你觉得自己最擅长的「救世超能力」是什么？</div>
+                <div class="q-options">
+                    <span data-val="A">A. 熬夜到天亮还精神抖擞</span>
+                    <span data-val="B">B. 在最后一分钟完成所有事</span>
+                    <span data-val="C">C. 用「来都来了」化解一切危机</span>
+                </div>
+            </div>
+
+            <div class="question" data-q="3">
+                <div class="q-label">🚀 问题 3 / 3</div>
+                <div class="q-text">地球毁灭倒计时 24 小时，你会怎么度过？</div>
+                <div class="q-options">
+                    <span data-val="A">A. 把冰箱里所有好吃的全吃光</span>
+                    <span data-val="B">B. 给讨厌的人发「你后悔了吗」</span>
+                    <span data-val="C">C. 躺平刷剧，反正也救不了</span>
+                </div>
+            </div>
+
+            <button class="submit-btn" id="submitBtn" disabled onclick="submitTest()">🚀 提交认证</button>
+        </div>
+
+        <!-- ===== 页面2.5：跳转 Excel ===== -->
+        <div id="pageExcel" class="page">
+            <div class="excel-icon">📊</div>
+            <div class="excel-title">地球防御数据报告</div>
+            <div class="excel-desc">
+                您的认证已通过！<br>
+                点击下方按钮查看 <span style="color:#ffd700;">「地球防御数据总览」</span>
+                <br>
+                <span style="font-size:13px; color:rgba(255,255,255,0.2);">看完后关闭窗口，系统将为您加载最终认证</span>
+            </div>
+
+            <!-- ★★★ 把下面的链接换成你的腾讯文档 / 石墨文档 / Excel 在线链接 ★★★ -->
+            <a class="excel-btn" id="openExcelBtn" href="https://docs.qq.com/sheet/你的腾讯文档ID" target="_blank">
+                📂 打开数据报告
+            </a>
+
+            <div class="excel-hint">
+                ⚡ 提示：看完后关闭 Excel 页面，<br>系统将自动继续
+            </div>
+        </div>
+
+        <!-- ===== 页面3：故障特效 ===== -->
+        <div id="page3" class="page">
+            <div class="glitch-overlay" id="glitchOverlay"></div>
+            <div class="glitch-text" id="glitchResult">✅ 认 证 成 功</div>
+            <div class="result-sub" id="resultSub">您 已 正 式 成 为 地 球 守 卫 者</div>
+            <div class="countdown-box">
+                <div class="label">⏳ 系统加载中</div>
+                <div class="number" id="countdownNumber">3</div>
+            </div>
+        </div>
+
+        <!-- ===== 页面4：反诈二维码 ===== -->
+        <div id="page4" class="page">
+            <div class="final-title">🎖️ 恭喜通关！</div>
+            <div class="final-sub">您已获得 <span style="color:#ffd700;">「地球守卫者」</span> 称号</div>
+            <div class="qr-wrapper">
+                <div id="qrcode"></div>
+            </div>
+            <div class="hint">
+                👆 扫码领取您的专属 <strong>「地球守卫者证书」</strong>
+                <br>
+                <span style="font-size:12px; color:rgba(255,255,255,0.10);">（扫了有惊喜）</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        //  ★★★ 配置你的 Excel 在线链接 ★★★
+        //  支持：腾讯文档、石墨文档、钉钉文档、飞书文档、Office Online
+        // ============================================================
+        const EXCEL_URL = 'https://docs.qq.com/sheet/DT3pkS0dtUUV1aWZF?tab=BB08J2';
+
+        // ============================================================
+        //  页面切换
+        // ============================================================
+        function goToPage(n) {
+            document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById('page' + n);
+            if (target) {
+                target.classList.add('active');
+                target.style.animation = 'none';
+                requestAnimationFrame(() => {
+                    target.style.animation = 'fadeIn 0.6s ease';
+                });
+            }
+        }
+
+        // ============================================================
+        //  Toast
+        // ============================================================
+        let toastTimer = null;
+
+        function showToast(msg, type = '') {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.className = 'toast ' + type;
+            void el.offsetWidth;
+            el.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+        }
+
+        // ============================================================
+        //  测试题交互
+        // ============================================================
+        const answers = {};
+
+        document.querySelectorAll('.question .q-options span').forEach(span => {
+            span.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const parent = this.closest('.question');
+                const qId = parent.dataset.q;
+                parent.querySelectorAll('.q-options span').forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+                answers[qId] = this.dataset.val;
+                checkAllAnswered();
+            });
+        });
+
+        document.querySelectorAll('.question').forEach(q => {
+            q.addEventListener('click', function() {
+                const selected = this.querySelector('.q-options span.active');
+                if (!selected) {
+                    const first = this.querySelector('.q-options span');
+                    if (first) first.click();
+                }
+            });
+        });
+
+        function checkAllAnswered() {
+            let answered = 0;
+            for (let i = 1; i <= 3; i++) {
+                if (answers[i]) answered++;
+            }
+            const btn = document.getElementById('submitBtn');
+            if (answered >= 3) {
+                btn.disabled = false;
+                btn.textContent = '🚀 提交认证';
+            } else {
+                btn.disabled = true;
+                btn.textContent = `请完成所有问题 (${answered}/3)`;
+            }
+        }
+
+        // ============================================================
+        //  提交 → 跳转到 Excel 引导页
+        // ============================================================
+        let excelOpened = false;
+        let glitchTriggered = false;
+
+        function submitTest() {
+            for (let i = 1; i <= 3; i++) {
+                if (!answers[i]) {
+                    showToast(`请完成问题 ${i} 🧐`, 'error');
+                    return;
+                }
+            }
+
+            // 保存答案到 localStorage（可选的，方便你后来看）
+            localStorage.setItem('earth_answers', JSON.stringify(answers));
+            console.log('📝 答案已保存', answers);
+
+            // 跳转到 Excel 引导页
+            goToPage('Excel');
+
+            // 更新 Excel 按钮的链接（动态设置）
+            document.getElementById('openExcelBtn').href = EXCEL_URL;
+
+            // 监听页面可见性变化（用户从 Excel 回来后触发）
+            excelOpened = false;
+            glitchTriggered = false;
+
+            // 先移除之前的监听器（避免重复绑定）
+            document.removeEventListener('visibilitychange', onVisibilityChange);
+            document.addEventListener('visibilitychange', onVisibilityChange);
+
+            showToast('📊 请查看数据报告后返回', 'info');
+        }
+
+        // ============================================================
+        //  监听用户从 Excel 回来
+        // ============================================================
+        function onVisibilityChange() {
+            // 当页面重新可见，且用户曾经打开过 Excel，且还没有触发过故障
+            if (!document.hidden && excelOpened && !glitchTriggered) {
+                glitchTriggered = true;
+                showToast('🛸 检测到宿主返回，系统继续...', 'success');
+                setTimeout(() => {
+                    goToGlitchPage();
+                }, 500);
+            }
+        }
+
+        // ============================================================
+        //  用户点击打开 Excel
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('openExcelBtn');
+            btn.addEventListener('click', function(e) {
+                // 标记用户已经打开了 Excel
+                excelOpened = true;
+                // 不阻止默认行为，让链接正常打开
+                // 但为了保险，加一个小延迟标记
+                setTimeout(() => {
+                    // 如果用户快速返回，可能触发不了 visibility 变化，加个后备
+                }, 2000);
+            });
+        });
+
+        // ============================================================
+        //  故障页 + 倒计时
+        // ============================================================
+        let countdownTimer = null;
+
+        function goToGlitchPage() {
+            goToPage(3);
+
+            const resultTexts = ['✅ 认 证 成 功', '🌍 地 球 得 救', '🛡️ 守 卫 者 就 位', '⚡ 宿 主 觉 醒 完 成'];
+            const subTexts = ['您 已 正 式 成 为 地 球 守 卫 者', '人 类 文 明 由 您 守 护', '您 的 名 字 将 载 入 史 册'];
+            document.getElementById('glitchResult').textContent = resultTexts[Math.floor(Math.random() * resultTexts.length)];
+            document.getElementById('resultSub').textContent = subTexts[Math.floor(Math.random() * subTexts.length)];
+
+            document.getElementById('glitchOverlay').classList.add('active');
+
+            let count = 3;
+            const numEl = document.getElementById('countdownNumber');
+            numEl.textContent = count;
+            if (countdownTimer) clearInterval(countdownTimer);
+            countdownTimer = setInterval(() => {
+                count--;
+                if (count <= 0) {
+                    clearInterval(countdownTimer);
+                    countdownTimer = null;
+                    document.getElementById('glitchOverlay').classList.remove('active');
+                    goToPage(4);
+                    generateQR();
+                } else {
+                    numEl.textContent = count;
+                }
+            }, 1000);
+        }
+
+        // ============================================================
+        //  二维码
+        // ============================================================
+        let qrGenerated = false;
+
+        function generateQR() {
+            if (qrGenerated) return;
+            qrGenerated = true;
+            const url = 'https://apps.apple.com/cn/app/%E5%9B%BD%E5%AE%B6%E5%8F%8D%E8%AF%88%E4%B8%AD%E5%BF%83/id1552823102';
+            const container = document.getElementById('qrcode');
+            container.innerHTML = '';
+            new QRCode(container, {
+                text: url,
+                width: 200,
+                height: 200,
+                colorDark: '#0a0a0a',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        // ============================================================
+        //  启动
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            goToPage(1);
+            // 更新 Excel 链接
+            document.getElementById('openExcelBtn').href = EXCEL_URL;
+            console.log('🌍 地球防御系统已启动！');
+            console.log('📊 Excel 链接:', EXCEL_URL);
+        });
+    </script>
+
+</body>
+</html>
