@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🪟 我门要窗新星 · 见闻录</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            padding: 20px;
+        }
+        .phone {
+            width: 100%;
+            max-width: 420px;
+            min-height: 700px;
+            background: linear-gradient(145deg, #0d0d1a, #1a0a2e);
+            border-radius: 40px;
+            padding: 30px 24px 30px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+            overflow: hidden;
+            border: 1px solid rgba(100, 200, 255, 0.10);
+        }
+        .page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 640px;
+            animation: fadeIn 0.8s ease;
+            position: relative;
+            z-index: 2;
+        }
+        .page.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ===== 页面1：恭喜抵达 ===== */
+        #page1 .glow-text {
+            font-size: 28px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 40px rgba(100, 200, 255, 0.4), 0 0 80px rgba(100, 200, 255, 0.15);
+            text-align: center;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        #page1 .glow-text .highlight {
+            color: #64c8ff;
+        }
+        #page1 .sub-text {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        #page1 .sub-text .emoji-big {
+            font-size: 72px;
+            display: block;
+            margin: 10px auto 8px;
+        }
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+        @keyframes dots {
+            0% { content: ''; }
+            33% { content: '.'; }
+            66% { content: '..'; }
+            100% { content: '...'; }
+        }
+        .progress-bar {
+            width: 80%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress-bar .fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #64c8ff, #ffd700);
+            border-radius: 4px;
+            animation: progressAnim 5s ease forwards;
+        }
+        @keyframes progressAnim {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        /* ===== 页面2：发现星球 ===== */
+        #page2 .discover-icon {
+            font-size: 80px;
+            margin-bottom: 16px;
+        }
+        #page2 .discover-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        #page2 .discover-title .highlight {
+            color: #64c8ff;
+        }
+        #page2 .discover-desc {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.45);
+            text-align: center;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        .diary-btn {
+            padding: 14px 40px;
+            background: rgba(100, 200, 255, 0.08);
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            border-radius: 14px;
+            color: #64c8ff;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            letter-spacing: 2px;
+        }
+        .diary-btn:hover {
+            background: rgba(100, 200, 255, 0.15);
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(100, 200, 255, 0.05);
+        }
+        .diary-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* ===== 日记页面 ===== */
+        .diary-page {
+            width: 100%;
+        }
+        .diary-date {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 3px;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+        .diary-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #64c8ff;
+            text-align: center;
+            margin-bottom: 16px;
+            text-shadow: 0 0 30px rgba(100, 200, 255, 0.1);
+        }
+        .diary-box {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 20px 22px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            margin-bottom: 16px;
+            min-height: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .diary-box p {
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 15px;
+            line-height: 1.9;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        .diary-box p:last-child {
+            margin-bottom: 0;
+        }
+        .diary-box .highlight-text {
+            color: #64c8ff;
+            font-weight: 600;
+        }
+        .diary-box .gold-text {
+            color: #ffd700;
+            font-weight: 600;
+        }
+        .diary-box .warning-text {
+            color: #ff6b9d;
+            font-weight: 600;
+        }
+        .diary-box .monster-text {
+            color: #ff0040;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .diary-box .green-text {
+            color: #00ffc8;
+            font-weight: 600;
+        }
+        .diary-page-num {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.08);
+            letter-spacing: 4px;
+            margin-top: 4px;
+        }
+        .diary-next-btn {
+            padding: 12px 32px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            letter-spacing: 1px;
+        }
+        .diary-next-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .diary-next-btn.urgent {
+            border-color: rgba(255, 0, 64, 0.2);
+            color: #ff6b9d;
+        }
+        .diary-next-btn.urgent:hover {
+            background: rgba(255, 0, 64, 0.08);
+            border-color: rgba(255, 0, 64, 0.3);
+        }
+
+        /* ===== 传单页面 ===== */
+        #page7 .flyer-icon {
+            font-size: 72px;
+            margin-bottom: 10px;
+        }
+        #page7 .flyer-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 0 0 40px rgba(255, 200, 0, 0.3);
+            text-align: center;
+            margin-bottom: 4px;
+        }
+        #page7 .flyer-sub {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.3);
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+        }
+        .flyer-box {
+            width: 100%;
+            background: rgba(255, 215, 0, 0.04);
+            border-radius: 16px;
+            padding: 20px 22px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .flyer-box p {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 16px;
+            line-height: 1.9;
+            margin-bottom: 10px;
+        }
+        .flyer-box p:last-child {
+            margin-bottom: 0;
+        }
+        .flyer-box .big-text {
+            font-size: 22px;
+            font-weight: 900;
+            color: #ffd700;
+        }
+        .flyer-box .red-text {
+            color: #ff0040;
+            font-weight: 700;
+        }
+        .flyer-box .blue-text {
+            color: #64c8ff;
+            font-weight: 600;
+        }
+        .flyer-btn {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #ffd700, #f5a623);
+            color: #0a0a0a;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            letter-spacing: 2px;
+            font-family: inherit;
+        }
+        .flyer-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 40px rgba(255, 200, 0, 0.2);
+        }
+        .flyer-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* ===== 扫码页 ===== */
+        #page8 .final-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 0 0 40px rgba(255, 200, 0, 0.3);
+            text-align: center;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+        }
+        #page8 .final-sub {
+            font-size: 16px;
+            font-weight: 600;
+            color: #64c8ff;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+        }
+        .qr-wrapper {
+            background: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 60px rgba(255, 200, 0, 0.06);
+            margin-bottom: 14px;
+            border: 2px solid rgba(255, 200, 0, 0.1);
+        }
+        #qrcode {
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #qrcode img {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        #page8 .hint {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.2);
+            text-align: center;
+            line-height: 1.8;
+        }
+        #page8 .hint strong {
+            color: #ffd700;
+            font-weight: 600;
+        }
+        .hint-tag {
+            display: inline-block;
+            background: rgba(255, 200, 0, 0.08);
+            color: #ffd700;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            border: 1px solid rgba(255, 200, 0, 0.06);
+            margin-bottom: 4px;
+        }
+
+        /* ===== Toast ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(100, 200, 255, 0.12);
+            color: #64c8ff;
+            padding: 10px 22px;
+            border-radius: 12px;
+            font-size: 13px;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            border: 1px solid rgba(100, 200, 255, 0.08);
+            backdrop-filter: blur(8px);
+        }
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toast" id="toast">🪐 正在前往窗新星...</div>
+
+    <div class="phone">
+
+        <!-- ===== 页面1：恭喜抵达 ===== -->
+        <div id="page1" class="page active">
+            <div class="glow-text">
+                🚀 恭喜<span class="highlight">宿主</span>抵达
+            </div>
+            <div class="glow-text" style="font-size:22px; font-weight:700; text-shadow:0 0 40px rgba(100,200,255,0.3); color:#64c8ff; margin-top:-4px;">
+                「 我 门 要 窗 新 星 」
+            </div>
+            <div class="sub-text">
+                <span class="emoji-big">🪟</span>
+                坐标：未知 · 窗明几净星域
+                <br>
+                任务：<span style="color:#64c8ff;">记录星球见闻</span>
+                <br>
+                <span style="font-size:12px; color:rgba(255,255,255,0.12);">正在降落<span class="loading-dots"></span></span>
+            </div>
+            <div class="progress-bar">
+                <div class="fill"></div>
+            </div>
+            <div style="margin-top:8px; font-size:12px; color:rgba(255,255,255,0.06); letter-spacing:2px;">
+               我 门 要 窗 新 星 · 你 行 的
+            </div>
+        </div>
+
+        <!-- ===== 页面2：发现星球 ===== -->
+        <div id="page2" class="page">
+            <div class="discover-icon">🌍</div>
+            <div class="discover-title">
+                你发现了 <span class="highlight">「我门要窗新星」</span>
+            </div>
+            <div class="discover-desc">
+                你降落在我门要窗新星上。<br>
+                这里到处都是<span style="color:#64c8ff;">窗户</span>——透明的、彩色的、发光的。<br>
+                星球上的生物大部分很友好，它们用窗户来交流。<br>
+                <br>
+                <span style="color:rgba(255,255,255,0.2); font-size:14px;">你决定在这里住下来，记录你的见闻。</span>
+            </div>
+            <button class="diary-btn" onclick="goToDiary(1)">📖 翻开见闻录</button>
+        </div>
+
+        <!-- ===== 日记1：第一天 ===== -->
+        <div id="diary1" class="page diary-page">
+            <div class="diary-date">✦ 第 1 天 ✦</div>
+            <div class="diary-title">📝 见闻录 · 第一天</div>
+            <div class="diary-box">
+                <p>窗新星的人们很热情。</p>
+                <p>他们的房子都有一扇<span class="highlight-text">巨大的窗户</span>，窗外挂满了风铃。</p>
+                <p>风一吹，叮叮当当的，整个星球都在唱歌。</p>
+                <p style="color:rgba(255,255,255,0.2); font-style:italic;">—— 我决定住下来。这里挺好。</p>
+            </div>
+            <div class="diary-page-num">——— 1 / 4 ———</div>
+            <button class="diary-next-btn" onclick="goToDiary(2)">➜ 下一页</button>
+        </div>
+
+        <!-- ===== 日记2：第三天 ===== -->
+        <div id="diary2" class="page diary-page">
+            <div class="diary-date">✦ 第 3 天 ✦</div>
+            <div class="diary-title">📝 见闻录 · 第三天</div>
+            <div class="diary-box">
+                <p>我学会了窗新星的语言。</p>
+                <p>他们敲击窗户来表达情绪——<span class="highlight-text">"叮"是开心，"咚"是饿了，"叮咚"是...</span>有人按门铃。</p>
+                <p>邻居们经常给我送食物，在窗户上写出"<span class="gold-text">欢迎你</span>"的字样。</p>
+                <p style="color:rgba(255,255,255,0.2); font-style:italic;">—— 这里的生物友好得像一场梦。</p>
+            </div>
+            <div class="diary-page-num">——— 2 / 4 ———</div>
+            <button class="diary-next-btn" onclick="goToDiary(3)">➜ 下一页</button>
+        </div>
+
+        <!-- ===== 日记3：第五天（怪兽出现） ===== -->
+        <div id="diary3" class="page diary-page">
+            <div class="diary-date">✦ 第 5 天 ✦</div>
+            <div class="diary-title">📝 见闻录 · 第五天</div>
+            <div class="diary-box">
+                <p>今天窗新星的居民们有些不安。</p>
+                <p>他们告诉我，这里有一个<span class="monster-text">「怪兽星人」</span>。</p>
+                <p>谁家的<span class="warning-text">窗户坏了、门坏了</span>，怪兽星人就会在一天之内出现，<span class="monster-text">毁灭他的家</span>。</p>
+                <p style="color:rgba(255,255,255,0.3);">—— 我检查了自己家的窗户和门，暂时还算完好。但邻居们都很害怕。</p>
+            </div>
+            <div class="diary-page-num">——— 3 / 4 ———</div>
+            <button class="diary-next-btn" onclick="goToDiary(4)">➜ 下一页</button>
+        </div>
+
+        <!-- ===== 日记4：第七天（窗坏了） ===== -->
+        <div id="diary4" class="page diary-page">
+            <div class="diary-date">✦ 第 7 天 · 紧 急 ✦</div>
+            <div class="diary-title">📝 见闻录 · 第七天</div>
+            <div class="diary-box">
+                <p style="color:#ff6b9d; font-weight:600;">坏了。</p>
+                <p>今天早上，我家的窗户<span class="warning-text">碎了</span>。</p>
+                <p>我不知道是怎么碎的。</p>
+                <p>但我知道一件事：<span class="monster-text">怪兽星人已经在路上了。</span></p>
+                <p style="color:rgba(255,255,255,0.2); font-style:italic;">—— 我不会修窗户。窗新星的居民也不会修窗户。</p>
+                <p style="color:#ff6b9d; font-weight:600; text-align:center; padding:4px 0;">我该怎么办？</p>
+            </div>
+            <div class="diary-page-num">——— 4 / 4 · 紧急 ———</div>
+            <button class="diary-next-btn urgent" onclick="goToPage7()">🔴 紧急 · 寻找办法</button>
+        </div>
+
+        <!-- ===== 传单页面 ===== -->
+        <div id="page7" class="page">
+            <div class="flyer-icon">📄</div>
+            <div class="flyer-title">🔔 你收到了一张传单</div>
+            <div class="flyer-sub">
+                不知是谁放在你家门口的
+                <br>
+                <span style="font-size:13px; color:rgba(255,255,255,0.15);">纸张泛黄，边缘有些卷曲</span>
+            </div>
+            <div class="flyer-box">
+                <p style="font-size:14px; color:rgba(255,255,255,0.2); letter-spacing:3px;">— 传 单 内 容 —</p>
+                <p style="font-size:18px; font-weight:700; color:#ffd700;">⚠️ 你 的 窗 户 危 险 了 ⚠️</p>
+                <p>怪兽星人正在赶来。<br>不要慌。<span class="blue-text">窗新星有办法。</span></p>
+                <p style="font-size:14px; color:rgba(255,255,255,0.5);">—— 很久以前，有一位来自地球的<span class="gold-text">「门窗之神」</span>，<br>曾用<span class="red-text">坚固的门窗</span>守护了整个星球。</p>
+                <p style="font-size:20px; font-weight:900; color:#ffd700; padding:6px 0;">抵 挡 怪 兽 星 人 的 唯 一 办 法</p>
+                <p style="font-size:22px; font-weight:900; color:#ff0040; padding:4px 0;">👇</p>
+                <p style="font-size:16px; font-weight:700; color:#64c8ff;"> 召 唤 「 门 窗 之 神 」</p>
+                <p style="font-size:13px; color:rgba(255,255,255,0.15); margin-top:4px;">—— 我门要窗新星第 1001 号应急手册 · 第七章</p>
+            </div>
+            <button class="flyer-btn" onclick="goToPage8()">🔮 召唤 · 抵挡怪兽</button>
+        </div>
+
+        <!-- ===== 扫码页 ===== -->
+        <div id="page8" class="page">
+            <div class="hint-tag">🛡️ 门 窗 之 神 召 唤 通 道</div>
+            <div class="final-title">🔴 召唤「门窗之神」</div>
+            <div class="final-sub">
+                据说，扫码后「窗神」会降临<br>
+                <span style="font-size:13px; color:rgba(255,255,255,0.2);">用坚固的门窗为你抵挡怪兽星人</span>
+            </div>
+            <div class="qr-wrapper">
+                <div id="qrcode"></div>
+            </div>
+            <div class="hint">
+                <strong>⬆ 扫码召唤 · 守护你的家</strong>
+                <br>
+                <span style="font-size:12px; color:rgba(255,255,255,0.10);">
+                    📡 门窗之神第 001 号 · 等待召唤
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        //  页面切换
+        // ============================================================
+        function goToPage(n) {
+            document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById('page' + n);
+            if (target) {
+                target.classList.add('active');
+                target.style.animation = 'none';
+                requestAnimationFrame(() => {
+                    target.style.animation = 'fadeIn 0.8s ease';
+                });
+            }
+        }
+
+        function goToDiary(n) {
+            document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById('diary' + n);
+            if (target) {
+                target.classList.add('active');
+                target.style.animation = 'none';
+                requestAnimationFrame(() => {
+                    target.style.animation = 'fadeIn 0.8s ease';
+                });
+            }
+        }
+
+        function goToPage7() {
+            goToPage(7);
+        }
+
+        function goToPage8() {
+            goToPage(8);
+            generateQR();
+        }
+
+        // ============================================================
+        //  页面1自动跳转页面2（5秒后）
+        // ============================================================
+        setTimeout(() => {
+            goToPage(2);
+        }, 5000);
+
+        // ============================================================
+        //  生成二维码（你家门窗的58链接）
+        // ============================================================
+        let qrGenerated = false;
+
+        function generateQR() {
+            if (qrGenerated) return;
+            qrGenerated = true;
+
+            // ★★★ 把下面这个链接换成你家门窗的58同城链接 ★★★
+            const url = 'https://wh.58.com/jiancai/58256763271430x.shtml';
+
+            const container = document.getElementById('qrcode');
+            container.innerHTML = '';
+            new QRCode(container, {
+                text: url,
+                width: 200,
+                height: 200,
+                colorDark: '#0a0a0a',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        // ============================================================
+        //  Toast
+        // ============================================================
+        let toastTimer = null;
+
+        function showToast(msg) {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                el.classList.remove('show');
+            }, 2000);
+        }
+
+        // ============================================================
+        //  启动
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🪟 「窗新星」见闻录已启动！');
+            console.log('🏠 怪兽星人即将来袭...');
+        });
+    </script>
+
+</body>
+</html>
